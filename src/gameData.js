@@ -13,8 +13,18 @@ import TwentyOneQuestions from './games/twentyOneQuestions/TwentyOneQuestions.js
 import burst_Forth from "./games/Burst_Forth/burstForth.js";
 import fight from "./games/fight/fight.js";
 import uno from './games/uno/uno.js';
+import Battleship from './games/battleship/Battleship.js';
 
 const gameData = {
+
+  battleship: {
+    title: "Battleship",
+    authors: "Aldair Garcia, Uzman Adeel",
+    description: "A classic game of Battleship",
+    minUsers: 2,
+    maxUsers: 2,
+    component: Battleship,
+  },
 
   chatroom: {
     title: "Chat Room",
