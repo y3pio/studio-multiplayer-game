@@ -2,15 +2,16 @@ import GameComponent from '../../GameComponent.js';
 import React from 'react';
 import UserApi from '../../UserApi.js';
 
-// import styled from '@emotion/styled';
+import styled from '@emotion/styled';
 
 // import firebase from 'firebase';
 
 import Board from './Board.js';
 
-// const PlayerView = styled.div`
-//   display: flex;
-// `;
+const BoardView = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 
 export default class App extends GameComponent{
@@ -49,9 +50,10 @@ export default class App extends GameComponent{
 		return (
 			<div>
 				{/*<Scorebord/>*/}
-				<Board isOpponent={false} id={this.state.yourId}/>
-				{/*<Board isOpponent={true} id={this.state.opponentId}/>*/}
-
+				<BoardView>
+					<Board isOpponent={false} id={this.state.yourId}/>
+					<Board isOpponent={true} id={this.state.opponentId}/>
+				</BoardView>
 			</div>
 		)
 	}
