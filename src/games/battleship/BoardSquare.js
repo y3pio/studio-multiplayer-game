@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
-// import styled from '@emotion/style';
-// const Image = styled.img`
-//         height:50px;
-//         width:50px;
-// `;
-//
-// const Holder= styled.div`
-//   height:50px;
-//   width: 50px;
-//   background-color:red;
-//   border:2px solid black;
-// `;
+import styled from '@emotion/styled';
+const Image = styled.img`
+        height:50px;
+        width:50px;
+`;
+
+const Holder= styled.div`
+  height:50px;
+  width: 50px;
+  background-color:red;
+  border:2px solid black;
+`;
 var p2s=0;
 export default class Square extends Component{
 
@@ -61,29 +61,18 @@ export default class Square extends Component{
       isVisible="visible"
     };
     return(
-      <div
-        style={{
-          height: '50px',
-          width: '50px',
-          backgroundColor: 'red',
-          border: '2px solid black'
-        }}
+      <Holder
         onClick={() => {
           this.p1action();
           this.props.update();
-        }
-        }
+        }}
       >
-        <img
-          style={{
-            visibility:isVisible,
-            height: '50px',
-            width: '50px'
-          }}
+        <Image
+          style={{ visibility:isVisible }}
           alt="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
         />
-      </div>
+      </Holder>
     );
   }
 

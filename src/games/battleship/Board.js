@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import Square from './BoardSquare.js';
-// import styled from '@emotion/style';
+import styled from '@emotion/styled';
 
-// const PlayerView = styled.div`
-//     width: 100%;
-// `;
+const PlayerView = styled.div`
+    width: 100%;
+`;
 //
 // const StyledBoard = styled.div`
 //   width:100px;
@@ -39,7 +39,7 @@ export default class Board extends Component{
     });
     return(
       <div>
-        <div style={{ width: '100%'}}>
+        <PlayerView>
           <h1>{this.props.id}</h1>
           <div style={{
             width: '100px',
@@ -49,7 +49,7 @@ export default class Board extends Component{
             gridColumnGap: '0',
             gridRowGap: '0'
           }}>{boardGrid}</div>
-        </div>
+        </PlayerView>
         <button onClick={()=> { console.log('Need to send board info to Firebase'); }}>Submit Board</button>
       </div>
     );
