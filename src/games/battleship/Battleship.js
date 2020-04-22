@@ -10,7 +10,12 @@ import Board from './Board.js';
 
 const BoardView = styled.div`
   display: flex;
-  flex-direction: column;
+	flex-direction: column;
+`;
+
+const Title = styled.p`
+	text-align: center;
+	font-size: 20px;
 `;
 
 
@@ -18,10 +23,7 @@ export default class App extends GameComponent{
 	constructor() {
 		super();
 		this.state = {
-			yourId: 'Test Player 1',
-			opponentId: 'Test Opponent',
-			// yourId: undefined,
-			// opponentId: undefined,
+		
 		}
 	}
 
@@ -47,14 +49,35 @@ export default class App extends GameComponent{
 		// var databaseRefp1 = database.ref("/playerone");
 		// var databaseRefp2 = database.ref("/playertwo");
 
-		return (
-			<div>
-				{/*<Scorebord/>*/}
-				<BoardView>
-					<Board isOpponent={false} id={this.state.yourId}/>
-					<Board isOpponent={true} id={this.state.opponentId}/>
-				</BoardView>
-			</div>
-		)
+		// <div>
+		// 			{/*<Scorebord/>*/}
+		// 			<h1>player one</h1>
+		// 			<BoardView>
+		// 				<Board isOpponent={false} id={this.state.yourId}/>
+		// 				<Board isOpponent={true} id={this.state.opponentId}/>
+		// 			</BoardView>
+		// 		</div>
+
+			if (
+				!this.state.hasGameStarted &&
+				this.getSessionCreatorUserId() === this.getMyUserId()
+			) {
+				return(
+					<div>
+						<Title>Welcome to battleship. Select the locations of your ships.</Title>
+						<p>player 1</p>
+						<Board isOpponent={false}/>
+					</div>
+				)
+			}else{
+				return(
+					<div>
+						<Title>Welcome to battleship. Select the locations of your ships.</Title>
+						<p>player 2</p>
+						<Board isOpponent={false}/>
+					</div>
+				);
+			}
+		
 	}
 }
