@@ -42,7 +42,10 @@ export default class Square extends Component{
   render(){
     return(
       <Holder
-        onClick={this.action}
+        onClick={()=>{
+          this.action();
+          this.props.update();
+        }}
       >
         <Image
           style={{ visibility:this.state.ifvisible }}

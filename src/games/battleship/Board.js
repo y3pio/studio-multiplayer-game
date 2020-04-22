@@ -12,35 +12,39 @@ const Holder =styled.div`
   margin-left:auto;
 	margin-right:auto;
 `;
-
+const Readybutton = styled.button`
+`;
 
 export default class Board extends Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.state = {
       shiplocation:new Array(100).fill(false),
     };
+
     this.updateShipLocation = (index)=>{
       let newshiplocation=this.state.shiplocation;
       newshiplocation[index]=!newshiplocation[index];
 
       this.setState({
-        shiplocation: newshiplocation
+        shiplocation: newshiplocation,
       })
     }
-  }
+
+    }
   render(){
     const boardGrid = this.state.shiplocation.map((isShipHere, index) => {
       return (<Square
         visable={isShipHere}
-        // update={this.updateShipLocation(index)}
+        update={this.updateShipLocation(index)}
       />);
     });
     return(
       <div>
-          <h1>{this.props.id}</h1>
-          <Holder>{boardGrid}</Holder>
-        <button onClick={()=> { console.log('Need to send board info to Firebase'); }}>Submit Board</button>
+        <Readybutton onClick={()=> {this.props.ref.set(this.state.shiplocation); }}>Ready</Readybutton>
+        <Holder>{boardGrid}</Holder>
+        
       </div>
     );
   }
