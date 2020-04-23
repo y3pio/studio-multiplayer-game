@@ -37,19 +37,41 @@ export default class Square extends Component{
   }
 
   render(){
-    return(
-      <Holder
-        onClick={()=>{
-          this.action();
-        }}
-      >
-        <Image
-          style={{ visibility:this.state.ifvisible }}
-          alt="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
-        />
-      </Holder>
-    );
+      if(!this.props.hgs){
+      return(
+        <Holder
+          onClick={()=>{
+            this.action();
+            this.props.update();
+          }}
+        >
+          <Image
+            style={{ visibility:this.state.ifvisible }}
+            alt="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
+          />
+        </Holder>
+      );
+    }else if(this.props.hgs){
+      let isVisible = "hidden";
+      if(this.props.visable){
+        isVisible="visible"
+      };
+      return(
+        <Holder
+          onClick={()=>{
+            this.action();
+            this.props.update();
+          }}
+        >
+          <Image
+            style={{ visibility:isVisible }}
+            alt="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
+          />
+        </Holder>
+      );
+    }
   }
 
 }

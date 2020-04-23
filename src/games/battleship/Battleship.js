@@ -2,24 +2,21 @@ import GameComponent from '../../GameComponent.js';
 import React from 'react';
 import UserApi from '../../UserApi.js';
 
-import styled from '@emotion/styled';
-
-
 import Board from './Board.js';
 
 export default class App extends GameComponent{
 	constructor(props) {
 		super(props);
 		this.state = {
-			p1shiplocation:null ,
-			p2shiplocation: null,
+			p1shiplocation: new Array(100).fill(false),
+			p2shiplocation: new Array(100).fill(false),
 			hasGameStarted: false,
-			playeroneready:false,
-			playertwoready:false
+			playeroneready:'false',
+			playertwoready:'false'
 		};
 		this.getSessionDatabaseRef().update(this.state);
-	}
 
+	}
 
 	onSessionDataChanged(data) {
     this.setState({
@@ -30,7 +27,30 @@ export default class App extends GameComponent{
 			playertwoready: data.playertwoready,
     });
 	}
-	
+
+	updateshiplocation=(index)=>{
+
+		if(this.getSessionCreatorUserId() === this.getMyUserId()){
+
+			let newshiplocation=this.state.p1shiplocation;
+			newshiplocation[index]=!newshiplocation[index];
+
+			this.getSessionDatabaseRef().update({
+				p1shiplocation:newshiplocation
+			})
+
+		}else{
+
+			let newshiplocation=this.state.p2shiplocation;
+			newshiplocation[index]=!newshiplocation[index];
+
+			this.getSessionDatabaseRef().update({
+				p2shiplocation:newshiplocation
+			})
+
+		}
+
+	}
 
 	startgame=(isready)=>{
 
@@ -44,44 +64,65 @@ export default class App extends GameComponent{
         playertwoready: isready
 			});
 		}
-		if(this.state.playeroneready === true && this.state.playertwoready === true){
+		if(this.state.playeroneready === 'true' && this.state.playertwoready === 'true'){
 			this.getSessionDatabaseRef().update({
         hasGameStarted: true
 			});
 		}
 	}
-
+	
 	render() {
 			
-		//picking loctaion of ships//////////////////////////////////////////////////
+	//picking loctaion of ships//////////////////////////////////////////////////
 
 			if (!this.state.hasGameStarted) {
-				return(
-					<div>
-						<Board 
-							startgame={(isready)=>this.startgame(isready)}
+					return(
+						<div>
+							<Board 
+								startg={(isready)=>this.startgame(isready)}
+								p1sl={this.state.p1shiplocation}
+								p2sl={this.state.p2shiplocation}
+								USL={(index)=>this.updateshiplocation(index)}
+								hgs={this.state.hasGameStarted}
+								C={this.getSessionCreatorUserId()}
+								myid={this.getMyUserId()}
 
-							creator={this.getSessionCreatorUserId()}
-							myid={this.getMyUserId()}
-							playeronename={UserApi.getName(this.getSessionUserIds()[0])}
-							playertwoname={UserApi.getName(this.getSessionUserIds()[1])}
-							playeroneready={this.state.playeroneready}
-							playertwoready={this.state.playertwoready}
-							/>
-					</div>
-				)
+								PON={UserApi.getName(this.getSessionUserIds()[0])}
+								PTN={UserApi.getName(this.getSessionUserIds()[1])}
+								/>
+						</div>
+					)
+					
 			}
 
 			if (this.state.hasGameStarted && this.getSessionCreatorUserId() === this.getMyUserId()){
 				return(
 					<div>
-						<h1>game started for player one</h1>
+						<Board
+							C={this.getSessionCreatorUserId()}
+							myid={this.getMyUserId()}
+
+							PON={UserApi.getName(this.getSessionUserIds()[0])}
+							PTN={UserApi.getName(this.getSessionUserIds()[1])}
+							p1sl={this.state.p1shiplocation}
+							p2sl={this.state.p2shiplocation}
+							hgs={this.state.hasGameStarted}/>
+						
 					</div>
 				)
 			}else if(this.state.hasGameStarted){
 				return(
 					<div>
-						<h1>game started for player two</h1>
+						<Board 
+							C={this.getSessionCreatorUserId()}
+							myid={this.getMyUserId()}
+
+							PON={UserApi.getName(this.getSessionUserIds()[0])}
+							PTN={UserApi.getName(this.getSessionUserIds()[1])}
+							p1sl={this.state.p1shiplocation}
+							p2sl={this.state.p2shiplocation}
+							hgs={this.state.hasGameStarted}
+						/>
 					</div>
 				)
 			}
