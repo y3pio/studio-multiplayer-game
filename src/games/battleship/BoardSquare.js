@@ -22,21 +22,18 @@ export default class Square extends Component{
     }
   }
   action=()=>{
-    console.log("clicked")
     if(this.state.ifvisible === "hidden"){
-
+      this.props.addships();
       this.setState({
         ifvisible: 'visible',
-        p1numberofship:+1
       });
     } else if(this.state.ifvisible === "visible" ){
-
+      this.props.subtractoships();
       this.setState({
         ifvisible: 'hidden',
-        p1numberofship:-1
       });
     }
-
+    console.log(this.state.p1numberofship);
   }
 
   render(){
@@ -44,7 +41,6 @@ export default class Square extends Component{
       <Holder
         onClick={()=>{
           this.action();
-          this.props.update();
         }}
       >
         <Image
