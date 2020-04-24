@@ -2,8 +2,12 @@ import React, {Component} from 'react';
 import Square from './BoardSquare.js';
 import styled from '@emotion/styled';
 
-
 const Holder =styled.div`
+`;
+const Map =styled.div`
+  position:relative ;
+  top:-540px;
+  z-index:20;
   width: 540px;
   display: grid;
   grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
@@ -12,6 +16,13 @@ const Holder =styled.div`
   margin-left:auto;
 	margin-right:auto;
 `;
+const Background=styled.img`
+  width: 540px;
+  height: 540px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+`
 const Column =styled.div`
   width:1180px;
   display: grid;
@@ -75,7 +86,10 @@ export default class Board extends Component{
             <Title>player one Welcome {this.props.PON} to battleship. Select the locations of your ships.</Title>
             <Readybutton onClick={()=> {this.props.startg('true')}}>Ready</Readybutton>
             <p>you are missing {20-this.state.numberofship}</p>
-            <Holder >{boardGrid}</Holder>
+            <Holder>
+            <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
+            <Map >{boardGrid}</Map>
+            </Holder>
           </div>
         );
 
@@ -96,7 +110,10 @@ export default class Board extends Component{
             <Title>player two Welcome {this.props.PTN} to battleship. Select the locations of your ships.</Title>
             <Readybutton onClick={()=> {this.props.startg('true')}}>Ready</Readybutton>
             <p>you are missing {20-this.state.numberofship}</p>
-            <Holder >{boardGrid}</Holder>
+            <Holder>
+              <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
+              <Map >{boardGrid}</Map>
+            </Holder>
           </div>
         );
     }
@@ -130,8 +147,14 @@ export default class Board extends Component{
         <div>
           <h1>game starteddddd for player one</h1>
           <Column>
-            <Holdergs>{p1board}</Holdergs>
-            <Holdergs>{p2board}</Holdergs>
+            <Holder>
+              <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
+              <Map>{p1board}</Map>
+            </Holder>
+            <Holder>
+              <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
+              <Map>{p2board}</Map>
+            </Holder>
           </Column>
         </div>
         )
@@ -167,8 +190,15 @@ export default class Board extends Component{
         <div>
           <h1>game starteddddd for player two</h1>
           <Column>
-            <Holdergs>{p2board}</Holdergs>
-            <Holdergs>{p1board}</Holdergs>
+            <Holder>
+              <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
+              <Map>{p2board}</Map>
+              
+            </Holder>
+            <Holder>
+              <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
+              <Map>{p1board}</Map>
+            </Holder>
           </Column>
         </div>
         )

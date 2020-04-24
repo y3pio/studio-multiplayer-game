@@ -101,7 +101,7 @@ export default class App extends GameComponent{
 						<Board
 							C={this.getSessionCreatorUserId()}
 							myid={this.getMyUserId()}
-
+							USL={(index)=>this.updateshiplocation(index)}
 							PON={UserApi.getName(this.getSessionUserIds()[0])}
 							PTN={UserApi.getName(this.getSessionUserIds()[1])}
 							p1sl={this.state.p1shiplocation}
@@ -116,7 +116,7 @@ export default class App extends GameComponent{
 						<Board 
 							C={this.getSessionCreatorUserId()}
 							myid={this.getMyUserId()}
-
+							USL={(index)=>this.updateshiplocation(index)}
 							PON={UserApi.getName(this.getSessionUserIds()[0])}
 							PTN={UserApi.getName(this.getSessionUserIds()[1])}
 							p1sl={this.state.p1shiplocation}
