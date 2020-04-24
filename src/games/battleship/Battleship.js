@@ -10,6 +10,8 @@ export default class App extends GameComponent{
 		this.state = {
 			p1shiplocation: new Array(100).fill(false),
 			p2shiplocation: new Array(100).fill(false),
+			p1attacke:new Array(100).fill(false),
+			p2attacke:new Array(100).fill(false),
 			hasGameStarted: false,
 			playeroneready:'false',
 			playertwoready:'false'
@@ -21,7 +23,9 @@ export default class App extends GameComponent{
 	onSessionDataChanged(data) {
     this.setState({
       p1shiplocation: data.p1shiplocation,
-      p2shiplocation: data.p2shiplocation,
+			p2shiplocation: data.p2shiplocation,
+			p1attacke: data.p1attacke,
+      p2attacke: data.p2attacke,
       hasGameStarted: data.hasGameStarted,
 			playeroneready: data.playeroneready,
 			playertwoready: data.playertwoready,
@@ -31,14 +35,12 @@ export default class App extends GameComponent{
 	updateshiplocation=(index)=>{
 
 		if(this.getSessionCreatorUserId() === this.getMyUserId()){
-
 			let newshiplocation=this.state.p1shiplocation;
 			newshiplocation[index]=!newshiplocation[index];
 
 			this.getSessionDatabaseRef().update({
 				p1shiplocation:newshiplocation
 			})
-
 		}else{
 
 			let newshiplocation=this.state.p2shiplocation;
@@ -47,11 +49,30 @@ export default class App extends GameComponent{
 			this.getSessionDatabaseRef().update({
 				p2shiplocation:newshiplocation
 			})
-
 		}
 
 	}
+	attack=(index)=>{
 
+		if(this.getSessionCreatorUserId() === this.getMyUserId()){
+			let attack=this.state.p1attacke;
+			attack[index]=!attack[index];
+
+			this.getSessionDatabaseRef().update({
+				p1attacke:attack
+			})
+		}else{
+
+			let attack=this.state.p2attacke;
+			attack[index]=!attack[index];
+
+			this.getSessionDatabaseRef().update({
+				p2attacke:attack
+			})
+		}
+
+	}
+	
 	startgame=(isready)=>{
 
 
@@ -75,57 +96,55 @@ export default class App extends GameComponent{
 			
 	//picking loctaion of ships//////////////////////////////////////////////////
 
-			if (!this.state.hasGameStarted) {
-					return(
-						<div>
-							<Board 
-								startg={(isready)=>this.startgame(isready)}
-								p1sl={this.state.p1shiplocation}
-								p2sl={this.state.p2shiplocation}
-								USL={(index)=>this.updateshiplocation(index)}
-								hgs={this.state.hasGameStarted}
-								C={this.getSessionCreatorUserId()}
-								myid={this.getMyUserId()}
-
-								PON={UserApi.getName(this.getSessionUserIds()[0])}
-								PTN={UserApi.getName(this.getSessionUserIds()[1])}
-								/>
-						</div>
-					)
-					
-			}
-
-			if (this.state.hasGameStarted && this.getSessionCreatorUserId() === this.getMyUserId()){
-				return(
-					<div>
-						<Board
-							C={this.getSessionCreatorUserId()}
-							myid={this.getMyUserId()}
-							USL={(index)=>this.updateshiplocation(index)}
-							PON={UserApi.getName(this.getSessionUserIds()[0])}
-							PTN={UserApi.getName(this.getSessionUserIds()[1])}
-							p1sl={this.state.p1shiplocation}
-							p2sl={this.state.p2shiplocation}
-							hgs={this.state.hasGameStarted}/>
-						
-					</div>
-				)
-			}else if(this.state.hasGameStarted){
+		if (!this.state.hasGameStarted) {
 				return(
 					<div>
 						<Board 
-							C={this.getSessionCreatorUserId()}
-							myid={this.getMyUserId()}
-							USL={(index)=>this.updateshiplocation(index)}
-							PON={UserApi.getName(this.getSessionUserIds()[0])}
-							PTN={UserApi.getName(this.getSessionUserIds()[1])}
+							startg={(isready)=>this.startgame(isready)}
 							p1sl={this.state.p1shiplocation}
 							p2sl={this.state.p2shiplocation}
+							USL={(index)=>this.updateshiplocation(index)}
 							hgs={this.state.hasGameStarted}
-						/>
+							C={this.getSessionCreatorUserId()}
+							myid={this.getMyUserId()}
+
+							PON={UserApi.getName(this.getSessionUserIds()[0])}
+							PTN={UserApi.getName(this.getSessionUserIds()[1])}
+							/>
 					</div>
 				)
-			}
+				
+		}
+
+		if (this.state.hasGameStarted && this.getSessionCreatorUserId() === this.getMyUserId()){
+			return(
+				<div>
+					<Board
+						C={this.getSessionCreatorUserId()}
+						myid={this.getMyUserId()}
+						PON={UserApi.getName(this.getSessionUserIds()[0])}
+						PTN={UserApi.getName(this.getSessionUserIds()[1])}
+						p1sl={this.state.p1shiplocation}
+						p2sl={this.state.p2shiplocation}
+						hgs={this.state.hasGameStarted}/>
+					
+				</div>
+			)
+		}else if(this.state.hasGameStarted){
+			return(
+				<div>
+					<Board 
+						C={this.getSessionCreatorUserId()}
+						myid={this.getMyUserId()}
+						PON={UserApi.getName(this.getSessionUserIds()[0])}
+						PTN={UserApi.getName(this.getSessionUserIds()[1])}
+						p1sl={this.state.p1shiplocation}
+						p2sl={this.state.p2shiplocation}
+						hgs={this.state.hasGameStarted}
+					/>
+				</div>
+			)
+		}
 		
 	}
 }

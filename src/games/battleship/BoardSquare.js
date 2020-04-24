@@ -18,10 +18,12 @@ const Imagethree = styled.img`
   top:-108px
 `;
 
-const Holder= styled.div`
-  height:50px;
-  width: 50px;
+const Holder= styled.button`
+  height:54px;
+  width: 54px;
   border:2px solid black;
+  padding:0;
+  background-color: transparent;
 `;
 
 export default class Square extends Component{
@@ -35,40 +37,35 @@ export default class Square extends Component{
     }
   }
   action=()=>{
-    if(this.state.ifvisible === "hidden"){
-      this.props.addships();
-      this.setState({
-        ifvisible: 'visible',
-      });
-    } else if(this.state.ifvisible === "visible" ){
-      this.props.subtractoships();
-      this.setState({
-        ifvisible: 'hidden',
-      });
+    if(this.props.nos === 20){
+      alert("You are ready");
+    }else if(this.props.nos <20){
+      if(this.state.ifvisible === "hidden"){
+        this.props.addships();
+        this.props.update();
+        if(this.props.nos === 18){
+          alert("You are reaching the max amount of ships. once you reach the max, you cant change the location of your ships. you can still change the location of your ships.");
+        };
+        this.setState({
+          ifvisible: 'visible',
+        });
+      } else if(this.state.ifvisible === "visible" ){
+        this.props.subtractoships();
+        this.props.update();
+        this.setState({
+          ifvisible: 'hidden',
+        });
+      }
     }
-    console.log(this.state.p1numberofship);
   }
 
   action2=()=>{
-    console.log(this.props.visable)
-      if(!this.props.visable){
-        this.setState({
-          mised: 'visible',
-        });
-      }else{
-        this.setState({
-          hit: 'visible',
-        });
-      }
   }
   render(){
       if(!this.props.hgs){
       return(
         <Holder
-          onClick={()=>{
-            this.action();
-            this.props.update();
-          }}
+          onClick={()=>{this.action()}}
         >
           <Image
             style={{ visibility:this.state.ifvisible }}
@@ -85,8 +82,6 @@ export default class Square extends Component{
       return(
         <Holder
           onClick={()=>{
-            this.action2(this.props.visable);
-            this.props.update();
           }}
         >
           <Image
