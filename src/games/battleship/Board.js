@@ -18,6 +18,7 @@ const Map =styled.div`
 	margin-right:auto;
 `;
 const Background=styled.img`
+  z-index:2;
   width: 540px;
   height: 540px;
   display: block;
@@ -40,11 +41,19 @@ const Title = styled.p`
 const Cover=styled.div`
   position:relative ;
   z-index:21;
-  top:-1080px;
-  height:540px;
-  width:540;
-  background-color:transparent;
+  left:-10px;
+  top:-1100px;
+  height:600px;
+  width:600px;
 
+`;
+const Backgroundimage=styled.img`
+  z-index:-1;
+  background-color:black;
+  position:absolute;
+  top:0;
+  width:100%;
+  height:100%;
 `;
 const Readybutton = styled.button`
 `;
@@ -136,13 +145,13 @@ export default class Board extends Component{
         return (<Square
           hgs={this.props.hgs}
           didithit={isShipHere}
-          testing={this.props.p2sl}
           attacking={()=>this.props.AT(index)}
         />);
       });
 
       return(
         <div>
+          <Backgroundimage src="https://lh3.googleusercontent.com/proxy/01pxD7925WHVIvEvoB0QHPJyzCteHYrj5QAONpKxFswbR3TPy5tb0HYAzwd4JajC2ssDMdIar6AunHCrvJROSxhOMJyum5Eq7XdQeF0X3e3FFe01Ruu-BKUg2mv6z9dWBLXM5UwL5d0" alt="https://lh3.googleusercontent.com/proxy/01pxD7925WHVIvEvoB0QHPJyzCteHYrj5QAONpKxFswbR3TPy5tb0HYAzwd4JajC2ssDMdIar6AunHCrvJROSxhOMJyum5Eq7XdQeF0X3e3FFe01Ruu-BKUg2mv6z9dWBLXM5UwL5d0"/>
           <h1>game starteddddd for player one</h1>
           <Column>
             <Holder>
@@ -182,6 +191,7 @@ export default class Board extends Component{
 
       return(
         <div>
+          <Backgroundimage src="https://lh3.googleusercontent.com/proxy/01pxD7925WHVIvEvoB0QHPJyzCteHYrj5QAONpKxFswbR3TPy5tb0HYAzwd4JajC2ssDMdIar6AunHCrvJROSxhOMJyum5Eq7XdQeF0X3e3FFe01Ruu-BKUg2mv6z9dWBLXM5UwL5d0" alt="https://lh3.googleusercontent.com/proxy/01pxD7925WHVIvEvoB0QHPJyzCteHYrj5QAONpKxFswbR3TPy5tb0HYAzwd4JajC2ssDMdIar6AunHCrvJROSxhOMJyum5Eq7XdQeF0X3e3FFe01Ruu-BKUg2mv6z9dWBLXM5UwL5d0"/>
           <h1>game starteddddd for player two</h1>
           <Column>
             <Holder>

@@ -8,13 +8,13 @@ const Image = styled.img`
 const Imagetwo = styled.img`
   height:50px;
   width:50px;
-  position:relative ;
+  position:absolute ;
   top:-54px
 `;
 const Imagethree = styled.img`
   height:50px;
   width:50px;
-  position:relative ;
+  position:absolute ;
   top:-108px
 `;
 
@@ -26,14 +26,22 @@ const Holder= styled.button`
   background-color: transparent;
 `;
 
+const Cover = styled.div`
+  width:54px;
+  height:54px;
+  position:absolute ;
+  top:-164px;
+  left:-2px;
+  border-radius:0;
+`;
 export default class Square extends Component{
 
   constructor() {
     super();
     this.state = {
       ifvisible: 'hidden',
-      mised:'hidden',
-      hit:'hidden'
+      unclickalue:'hidden'
+      
     }
   }
   action=()=>{
@@ -61,7 +69,9 @@ export default class Square extends Component{
 
   action2=()=>{
       this.props.attacking();
-      console.log(this.props.testing);
+      this.setState({
+        unclickalue: 'visible',
+      });
   }
   render(){
       if(!this.props.hgs){
@@ -109,6 +119,7 @@ export default class Square extends Component{
             alt='https://supchina.com/wp-content/uploads/2017/12/Sichuan-pagoda-fire.gif'
             src='https://supchina.com/wp-content/uploads/2017/12/Sichuan-pagoda-fire.gif'
           />
+          <Cover style={{visibility:this.state.unclickalue}} onClick={()=> alert("You have already attacked this spot")}/>
         </Holder>
       );
     }

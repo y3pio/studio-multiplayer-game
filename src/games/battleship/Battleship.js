@@ -54,7 +54,7 @@ export default class App extends GameComponent{
 			let newshiplocation=this.state.p2shiplocation;
 
 
-			if(newshiplocation[index] === true || newshiplocation[index] === 'hit'){
+			if(newshiplocation[index] === true){
 				newshiplocation[index]="hit"
 				this.getSessionDatabaseRef().update({
 					p2shiplocation:newshiplocation
