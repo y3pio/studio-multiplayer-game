@@ -37,7 +37,15 @@ const Title = styled.p`
 	text-align: center;
 	font-size: 20px;
 `;
+const Cover=styled.div`
+  position:relative ;
+  z-index:21;
+  top:-1080px;
+  height:540px;
+  width:540;
+  background-color:transparent;
 
+`;
 const Readybutton = styled.button`
 `;
 
@@ -118,16 +126,20 @@ export default class Board extends Component{
       let p1board = this.props.p1sl.map((isShipHere, index) => {
         return (<Square
           visable={isShipHere}
-          hgs={this.props.hgs}
-        />);
-      });
-      let p2board = this.props.p2sl.map((isShipHere, index) => {
-        return (<Square
-          visable={isShipHere}
+          didithit={isShipHere}
           hgs={this.props.hgs}
         />);
       });
 
+
+      let p2board = this.props.p2sl.map((isShipHere, index) => {
+        return (<Square
+          hgs={this.props.hgs}
+          didithit={isShipHere}
+          testing={this.props.p2sl}
+          attacking={()=>this.props.AT(index)}
+        />);
+      });
 
       return(
         <div>
@@ -136,6 +148,7 @@ export default class Board extends Component{
             <Holder>
               <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
               <Map>{p1board}</Map>
+              <Cover  onClick={()=>{alert('can attack your own ships')}}/>
             </Holder>
             <Holder>
               <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
@@ -151,7 +164,9 @@ export default class Board extends Component{
 
       let p1board = this.props.p1sl.map((isShipHere, index) => {
         return (<Square
-          visable={isShipHere}
+          attacking={()=>this.props.AT(index)}
+          didithit={isShipHere}
+          testing={this.props.p1sl}
           hgs={this.props.hgs}
         />);
       });
@@ -160,6 +175,7 @@ export default class Board extends Component{
       let p2board = this.props.p2sl.map((isShipHere, index) => {
         return (<Square
           visable={isShipHere}
+          didithit={isShipHere}
           hgs={this.props.hgs}
         />);
       });
@@ -171,7 +187,7 @@ export default class Board extends Component{
             <Holder>
               <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
               <Map>{p2board}</Map>
-              
+              <Cover onClick={()=>{alert('can attack your own ships')}}/>
             </Holder>
             <Holder>
               <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>

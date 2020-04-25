@@ -10,11 +10,10 @@ export default class App extends GameComponent{
 		this.state = {
 			p1shiplocation: new Array(100).fill(false),
 			p2shiplocation: new Array(100).fill(false),
-			p1attacke:new Array(100).fill(false),
-			p2attacke:new Array(100).fill(false),
 			hasGameStarted: false,
 			playeroneready:'false',
-			playertwoready:'false'
+			playertwoready:'false',
+			didithit:null
 		};
 		this.getSessionDatabaseRef().update(this.state);
 
@@ -24,54 +23,65 @@ export default class App extends GameComponent{
     this.setState({
       p1shiplocation: data.p1shiplocation,
 			p2shiplocation: data.p2shiplocation,
-			p1attacke: data.p1attacke,
-      p2attacke: data.p2attacke,
       hasGameStarted: data.hasGameStarted,
 			playeroneready: data.playeroneready,
 			playertwoready: data.playertwoready,
+			attack: data.attack
     });
 	}
 
 	updateshiplocation=(index)=>{
+			if(this.getSessionCreatorUserId() === this.getMyUserId()){
+				let newshiplocation=this.state.p1shiplocation;
 
+				newshiplocation[index]=!newshiplocation[index];
+				this.getSessionDatabaseRef().update({
+					p1shiplocation:newshiplocation
+				})
+			}else{
+
+				let newshiplocation=this.state.p2shiplocation;
+				newshiplocation[index]=!newshiplocation[index];
+
+				this.getSessionDatabaseRef().update({
+					p2shiplocation:newshiplocation
+				})
+			}
+	}
+	attacking=(index)=>{
+		console.log("attacking")
 		if(this.getSessionCreatorUserId() === this.getMyUserId()){
-			let newshiplocation=this.state.p1shiplocation;
-			newshiplocation[index]=!newshiplocation[index];
-
-			this.getSessionDatabaseRef().update({
-				p1shiplocation:newshiplocation
-			})
-		}else{
-
 			let newshiplocation=this.state.p2shiplocation;
-			newshiplocation[index]=!newshiplocation[index];
 
-			this.getSessionDatabaseRef().update({
-				p2shiplocation:newshiplocation
-			})
-		}
 
-	}
-	attack=(index)=>{
-
-		if(this.getSessionCreatorUserId() === this.getMyUserId()){
-			let attack=this.state.p1attacke;
-			attack[index]=!attack[index];
-
-			this.getSessionDatabaseRef().update({
-				p1attacke:attack
-			})
+			if(newshiplocation[index] === true || newshiplocation[index] === 'hit'){
+				newshiplocation[index]="hit"
+				this.getSessionDatabaseRef().update({
+					p2shiplocation:newshiplocation
+				})
+			}else if(newshiplocation[index] === false){
+				newshiplocation[index]="miss"
+				this.getSessionDatabaseRef().update({
+					p2shiplocation:newshiplocation
+				})
+			}
 		}else{
+			let newshiplocation=this.state.p1shiplocation;
 
-			let attack=this.state.p2attacke;
-			attack[index]=!attack[index];
 
-			this.getSessionDatabaseRef().update({
-				p2attacke:attack
-			})
+			if(newshiplocation[index] === true){
+				newshiplocation[index]="hit"
+				this.getSessionDatabaseRef().update({
+					p1shiplocation:newshiplocation
+				})
+			}else{
+				newshiplocation[index]="miss"
+				this.getSessionDatabaseRef().update({
+					p1shiplocation:newshiplocation
+				})
+			}
 		}
-
-	}
+}
 	
 	startgame=(isready)=>{
 
@@ -115,7 +125,7 @@ export default class App extends GameComponent{
 				)
 				
 		}
-
+		//game started/////////////////////////////////////////////////////////////////
 		if (this.state.hasGameStarted && this.getSessionCreatorUserId() === this.getMyUserId()){
 			return(
 				<div>
@@ -126,7 +136,10 @@ export default class App extends GameComponent{
 						PTN={UserApi.getName(this.getSessionUserIds()[1])}
 						p1sl={this.state.p1shiplocation}
 						p2sl={this.state.p2shiplocation}
-						hgs={this.state.hasGameStarted}/>
+						hgs={this.state.hasGameStarted}
+						attack={this.state.attack}
+						AT={(index)=>this.attacking(index)}
+						/>
 					
 				</div>
 			)
@@ -141,6 +154,8 @@ export default class App extends GameComponent{
 						p1sl={this.state.p1shiplocation}
 						p2sl={this.state.p2shiplocation}
 						hgs={this.state.hasGameStarted}
+						attack={this.state.attack}
+						AT={(index)=>this.attacking(index)}
 					/>
 				</div>
 			)

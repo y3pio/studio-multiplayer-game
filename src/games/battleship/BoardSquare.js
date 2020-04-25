@@ -60,6 +60,8 @@ export default class Square extends Component{
   }
 
   action2=()=>{
+      this.props.attacking();
+      console.log(this.props.testing);
   }
   render(){
       if(!this.props.hgs){
@@ -75,17 +77,25 @@ export default class Square extends Component{
         </Holder>
       );
     }else if(this.props.hgs){
+      let didhit='hidden';
       let isVisible = "hidden";
-      if(this.props.visable){
+      let missed="hidden";
+      if(this.props.visable === true){
         isVisible="visible"
-      };
+      }else if(this.props.didithit === "hit"){
+        didhit='visible'
+      }else if(this.props.didithit === 'miss'){
+        missed='visible'
+      }
       return(
         <Holder
           onClick={()=>{
+            this.action2()
+            console.log(this.props.didithit+"what"+this.props.visable)
           }}
         >
           <Image
-            style={{visibility:this.state.mised}}
+            style={{visibility:missed}}
             alt="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/1200px-Red_X.svg.png"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/1200px-Red_X.svg.png"
             />
@@ -95,7 +105,7 @@ export default class Square extends Component{
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
           />
           <Imagethree
-            style={{visibility:this.state.hit}}
+            style={{visibility:didhit}}
             alt='https://supchina.com/wp-content/uploads/2017/12/Sichuan-pagoda-fire.gif'
             src='https://supchina.com/wp-content/uploads/2017/12/Sichuan-pagoda-fire.gif'
           />
