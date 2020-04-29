@@ -8,13 +8,13 @@ const Image = styled.img`
 const Imagetwo = styled.img`
   height:50px;
   width:50px;
-  position:absolute ;
+  position:relative ;
   top:-54px
 `;
 const Imagethree = styled.img`
   height:50px;
   width:50px;
-  position:absolute ;
+  position:relative ;
   top:-108px
 `;
 
@@ -29,7 +29,7 @@ const Holder= styled.button`
 const Cover = styled.div`
   width:54px;
   height:54px;
-  position:absolute ;
+  position:relative ;
   top:-164px;
   left:-2px;
   border-radius:0;
