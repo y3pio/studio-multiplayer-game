@@ -135,6 +135,7 @@ export default class App extends GameComponent{
 						hgs={this.state.hasGameStarted}
 						C={this.getSessionCreatorUserId()}
 						myid={this.getMyUserId()}
+						
 						PON={UserApi.getName(this.getSessionUserIds()[0])}
 						PTN={UserApi.getName(this.getSessionUserIds()[1])}
 

@@ -63,6 +63,9 @@ export default class Board extends Component{
     super(props);
     this.state = {
       numberofship:0,
+      plsl:props.plsl || [],
+      p2sl:props.p2sl|| [],
+      hgs:props.hgs
     };
   }
   addtonumbersofships=()=>{
@@ -76,13 +79,21 @@ export default class Board extends Component{
       numberofship:this.state.numberofship-1
     });
   }
-
+  onSessionDataChanged(data) {
+    this.setState({
+      p1sl: data.p1shiplocation || [],
+			p2sl: data.p2shiplocation || [],
+      hgs: data.hasGameStarted,
+    });
+	}
   render(){
     ///////////////////seleting ships////////////////////////////////
-    if(!this.props.hgs){
+    console.table(this.state.p1sl);
+    
+    if(!this.state.hgs){
       let boardGrid;
       if(this.props.myid === this.props.C){
-        boardGrid = this.props.p1sl.map((isShipHere, index) => {
+        boardGrid = this.state.p1sl.map((isShipHere, index) => {
         return (<Square
           key={"playerone"+index}
           nos={this.state.numberofship}
@@ -93,9 +104,10 @@ export default class Board extends Component{
         />);
       });
     }else{
-      boardGrid = this.props.p2sl.map((isShipHere, index) => {
+      boardGrid = this.state.p2sl.map((isShipHere, index) => {
+        console.log(isShipHere)
         return (<Square
-          key={"playerone"+index}
+          key={"playertwo"+index}
           nos={this.state.numberofship}
           visable={isShipHere}
           update={()=> this.props.USL(index)}
@@ -119,56 +131,72 @@ export default class Board extends Component{
         </div>
       );
     }
-    //////////player one attacking//////////////
-    else if(this.props.hgs){
+    //////////players attacking//////////////
+    else if(this.state.hgs){
       let mysl;
       let opponentsl;
+      let playername;
       if(this.props.myid === this.props.C){
-         mysl = this.props.p1sl.map((isShipHere, index) => {
+        playername=this.props.PON+"player one";
+         mysl = this.state.p1sl.map((isShipHere, index) => {
           return (<Square
             key={"playerone"+index}
             visable={isShipHere}
             didithit={isShipHere}
-            hgs={this.props.hgs}
+            hgs={this.state.hgs}
           />);
         });
 
-        opponentsl = this.props.p2sl.map((isShipHere, index) => {
+        opponentsl = this.state.p2sl.map((isShipHere, index) => {
           return (<Square
             key={"playerotwo"+index}
-            hgs={this.props.hgs}
+            hgs={this.state.hgs}
             didithit={isShipHere}
             attacking={()=>this.props.AT(index)}
           />);
         });
       }else{
-        mysl = this.props.p2sl.map((isShipHere, index) => {
+        playername=this.props.PTN+"Player two";
+        mysl = this.state.p2sl.map((isShipHere, index) => {
           return (<Square
             key={"playerotwo"+index}
           visable={isShipHere}
           didithit={isShipHere}
-          hgs={this.props.hgs}
+          hgs={this.state.hgs}
           />);
         });
 
-        opponentsl = this.props.p1sl.map((isShipHere, index) => {
+        opponentsl = this.state.p1sl.map((isShipHere, index) => {
           return (<Square
             key={"playerone"+index}
             didithit={isShipHere}
-            hgs={this.props.hgs}
+            hgs={this.state.hgs}
             attacking={()=>this.props.AT(index)}
           />);
         });
         
       }
+      const renderscorebored=(opponentshiplist)=>{
+        const scorebored=opponentshiplist.reduce((score,ship)=>{
+          if(ship === "hit"){
+            score.totalhits=score.totalhits+1;
+          }
+          if(ship === true || ship === "hit"){
+            score.totalships=score.totalships+1
+          }
+          return(score)
+        },{totalships:0, totalhits: 0})
+        return(scorebored)
+      }
       return(
         <div>
-          <h1>game starteddddd for player one</h1>
+          <h1>game starteddddd for {playername}</h1>
+          <div>{JSON.stringify(renderscorebored(opponentsl))}</div>
           <Column>
             <Holder>
               <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
               <Map>{mysl}</Map>
-              <Cover  onClick={()=>{alert('can attack your own ships')}}/>
+              <Cover  onClick={()=>{alert("can't attack your own ships")}}/>
             </Holder>
             <Holder>
               <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
