@@ -59,14 +59,12 @@ const Readybutton = styled.button`
 `;
 
 export default class Board extends Component{
-
   constructor(props) {
     super(props);
     this.state = {
       numberofship:0,
     };
   }
-
   addtonumbersofships=()=>{
     this.setState({
       numberofship: this.state.numberofship+1
@@ -80,21 +78,39 @@ export default class Board extends Component{
   }
 
   render(){
-    ///////////////////player one seleting ships////////////////////////////////
-    if(this.props.C === this.props.myid && !this.props.hgs){
-        let boardGrid = this.props.p1sl.map((isShipHere, index) => {
-          return (<Square
-            nos={this.state.numberofship}
-            visable={isShipHere}
-            update={()=> this.props.USL(index)}
-            addships={()=>this.addtonumbersofships()}
-            subtractoships={()=>this.subtractonumbersofships()}
-          />);
-        });
+    ///////////////////seleting ships////////////////////////////////
+    if(!this.props.hgs){
+      let boardGrid;
+      if(this.props.myid === this.props.C){
+        boardGrid = this.props.p1sl.map((isShipHere, index) => {
+        return (<Square
+          key={"playerone"+index}
+          nos={this.state.numberofship}
+          visable={isShipHere}
+          update={()=> this.props.USL(index)}
+          addships={()=>this.addtonumbersofships()}
+          subtractoships={()=>this.subtractonumbersofships()}
+        />);
+      });
+    }else{
+      boardGrid = this.props.p2sl.map((isShipHere, index) => {
+        return (<Square
+          key={"playerone"+index}
+          nos={this.state.numberofship}
+          visable={isShipHere}
+          update={()=> this.props.USL(index)}
+          addships={()=>this.addtonumbersofships()}
+          subtractoships={()=>this.subtractonumbersofships()}
+        />);
+      });
+    }
       return(
         <div>
           <Title>player one Welcome {this.props.PON} to battleship. Select the locations of your ships.</Title>
-          <Readybutton onClick={()=> {this.props.startg('true')}}>Ready</Readybutton>
+          <Readybutton onClick={()=> {
+            this.props.startg('true');
+            this.props.ready();
+            }}>Ready</Readybutton>
           <p>you are missing {20-this.state.numberofship} ships</p>
           <Holder>
           <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
@@ -103,111 +119,65 @@ export default class Board extends Component{
         </div>
       );
     }
-    //////player two selecting ships///////////////////////////
-    else if(!this.props.hgs){
-        let boardGrid = this.props.p2sl.map((isShipHere, index) => {
-          return (
-            <Square
-              nos={this.state.numberofship}
-              visable={isShipHere}
-              update={()=>this.props.USL(index)}
-              addships={()=>this.addtonumbersofships()}
-              subtractoships={()=>this.subtractonumbersofships()}
-            />
-          );
-        });
-      return(
-        <div>
-          <Title>player two Welcome {this.props.PTN} to battleship. Select the locations of your ships.</Title>
-          <Readybutton onClick={()=> {this.props.startg('true')}}>Ready</Readybutton>
-          <p>you are missing {20-this.state.numberofship}</p>
-          <Holder>
-            <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
-            <Map >{boardGrid}</Map>
-          </Holder>
-        </div>
-      );
-    }
     //////////player one attacking//////////////
-    else if(this.props.C === this.props.myid && this.props.hgs){
+    else if(this.props.hgs){
+      let mysl;
+      let opponentsl;
+      if(this.props.myid === this.props.C){
+         mysl = this.props.p1sl.map((isShipHere, index) => {
+          return (<Square
+            key={"playerone"+index}
+            visable={isShipHere}
+            didithit={isShipHere}
+            hgs={this.props.hgs}
+          />);
+        });
 
-
-      let p1board = this.props.p1sl.map((isShipHere, index) => {
-        return (<Square
+        opponentsl = this.props.p2sl.map((isShipHere, index) => {
+          return (<Square
+            key={"playerotwo"+index}
+            hgs={this.props.hgs}
+            didithit={isShipHere}
+            attacking={()=>this.props.AT(index)}
+          />);
+        });
+      }else{
+        mysl = this.props.p2sl.map((isShipHere, index) => {
+          return (<Square
+            key={"playerotwo"+index}
           visable={isShipHere}
           didithit={isShipHere}
           hgs={this.props.hgs}
-        />);
-      });
+          />);
+        });
 
-
-      let p2board = this.props.p2sl.map((isShipHere, index) => {
-        return (<Square
-          hgs={this.props.hgs}
-          didithit={isShipHere}
-          attacking={()=>this.props.AT(index)}
-        />);
-      });
-
+        opponentsl = this.props.p1sl.map((isShipHere, index) => {
+          return (<Square
+            key={"playerone"+index}
+            didithit={isShipHere}
+            hgs={this.props.hgs}
+            attacking={()=>this.props.AT(index)}
+          />);
+        });
+        
+      }
       return(
         <div>
-          <Backgroundimage src="https://lh3.googleusercontent.com/proxy/01pxD7925WHVIvEvoB0QHPJyzCteHYrj5QAONpKxFswbR3TPy5tb0HYAzwd4JajC2ssDMdIar6AunHCrvJROSxhOMJyum5Eq7XdQeF0X3e3FFe01Ruu-BKUg2mv6z9dWBLXM5UwL5d0" alt="https://lh3.googleusercontent.com/proxy/01pxD7925WHVIvEvoB0QHPJyzCteHYrj5QAONpKxFswbR3TPy5tb0HYAzwd4JajC2ssDMdIar6AunHCrvJROSxhOMJyum5Eq7XdQeF0X3e3FFe01Ruu-BKUg2mv6z9dWBLXM5UwL5d0"/>
           <h1>game starteddddd for player one</h1>
           <Column>
             <Holder>
               <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
-              <Map>{p1board}</Map>
+              <Map>{mysl}</Map>
               <Cover  onClick={()=>{alert('can attack your own ships')}}/>
             </Holder>
             <Holder>
               <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
-              <Map>{p2board}</Map>
+              <Map>{opponentsl}</Map>
             </Holder>
           </Column>
         </div>
         )
 
     }
-    ///player two atcaking////////////////////////////////
-    else if(this.props.hgs){
-
-      let p1board = this.props.p1sl.map((isShipHere, index) => {
-        return (<Square
-          attacking={()=>this.props.AT(index)}
-          didithit={isShipHere}
-          testing={this.props.p1sl}
-          hgs={this.props.hgs}
-        />);
-      });
-
-
-      let p2board = this.props.p2sl.map((isShipHere, index) => {
-        return (<Square
-          visable={isShipHere}
-          didithit={isShipHere}
-          hgs={this.props.hgs}
-        />);
-      });
-
-      return(
-        <div>
-          <Backgroundimage src="https://lh3.googleusercontent.com/proxy/01pxD7925WHVIvEvoB0QHPJyzCteHYrj5QAONpKxFswbR3TPy5tb0HYAzwd4JajC2ssDMdIar6AunHCrvJROSxhOMJyum5Eq7XdQeF0X3e3FFe01Ruu-BKUg2mv6z9dWBLXM5UwL5d0" alt="https://lh3.googleusercontent.com/proxy/01pxD7925WHVIvEvoB0QHPJyzCteHYrj5QAONpKxFswbR3TPy5tb0HYAzwd4JajC2ssDMdIar6AunHCrvJROSxhOMJyum5Eq7XdQeF0X3e3FFe01Ruu-BKUg2mv6z9dWBLXM5UwL5d0"/>
-          <h1>game starteddddd for player two</h1>
-          <Column>
-            <Holder>
-              <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
-              <Map>{p2board}</Map>
-              <Cover onClick={()=>{alert('can attack your own ships')}}/>
-            </Holder>
-            <Holder>
-              <Background url="https://i.gifer.com/96Aw.gif" src="https://i.gifer.com/96Aw.gif"/>
-              <Map>{p1board}</Map>
-            </Holder>
-          </Column>
-        </div>
-        )
-
-    }
-
   }
 }

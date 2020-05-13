@@ -101,7 +101,6 @@ export default class Square extends Component{
         <Holder
           onClick={()=>{
             this.action2()
-            console.log(this.props.didithit+"what"+this.props.visable)
           }}
         >
           <Image

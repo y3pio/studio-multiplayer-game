@@ -13,10 +13,9 @@ export default class App extends GameComponent{
 			hasGameStarted: false,
 			playeroneready:'false',
 			playertwoready:'false',
-			didithit:null
 		};
+		//temporarily
 		this.getSessionDatabaseRef().update(this.state);
-
 	}
 
 	onSessionDataChanged(data) {
@@ -25,35 +24,41 @@ export default class App extends GameComponent{
 			p2shiplocation: data.p2shiplocation,
       hasGameStarted: data.hasGameStarted,
 			playeroneready: data.playeroneready,
-			playertwoready: data.playertwoready,
-			attack: data.attack
+			playertwoready: data.playertwoready
     });
 	}
 
 	updateshiplocation=(index)=>{
 			if(this.getSessionCreatorUserId() === this.getMyUserId()){
 				let newshiplocation=this.state.p1shiplocation;
-
 				newshiplocation[index]=!newshiplocation[index];
-				this.getSessionDatabaseRef().update({
+				this.setState({
 					p1shiplocation:newshiplocation
-				})
+				});
 			}else{
-
 				let newshiplocation=this.state.p2shiplocation;
 				newshiplocation[index]=!newshiplocation[index];
-
-				this.getSessionDatabaseRef().update({
+				this.setState({
 					p2shiplocation:newshiplocation
-				})
+				});
 			}
 	}
+
+	ready=()=>{
+		if(this.getSessionCreatorUserId() === this.getMyUserId()){
+			this.getSessionDatabaseRef().update({
+				p1shiplocation:this.state.p1shiplocation
+			});
+		}else{
+			this.getSessionDatabaseRef().update({
+				p2shiplocation:this.state.p2shiplocation
+			});
+		};
+	};
+
 	attacking=(index)=>{
-		console.log("attacking")
 		if(this.getSessionCreatorUserId() === this.getMyUserId()){
 			let newshiplocation=this.state.p2shiplocation;
-
-
 			if(newshiplocation[index] === true){
 				newshiplocation[index]="hit"
 				this.getSessionDatabaseRef().update({
@@ -67,8 +72,6 @@ export default class App extends GameComponent{
 			}
 		}else{
 			let newshiplocation=this.state.p1shiplocation;
-
-
 			if(newshiplocation[index] === true){
 				newshiplocation[index]="hit"
 				this.getSessionDatabaseRef().update({
@@ -81,11 +84,9 @@ export default class App extends GameComponent{
 				})
 			}
 		}
-}
+	}
 	
 	startgame=(isready)=>{
-
-
 		if (this.getSessionCreatorUserId() === this.getMyUserId()) {
 			this.getSessionDatabaseRef().update({
         playeroneready: isready
@@ -110,56 +111,40 @@ export default class App extends GameComponent{
 				return(
 					<div>
 						<Board 
-							startg={(isready)=>this.startgame(isready)}
-							p1sl={this.state.p1shiplocation}
-							p2sl={this.state.p2shiplocation}
-							USL={(index)=>this.updateshiplocation(index)}
 							hgs={this.state.hasGameStarted}
 							C={this.getSessionCreatorUserId()}
 							myid={this.getMyUserId()}
-
 							PON={UserApi.getName(this.getSessionUserIds()[0])}
 							PTN={UserApi.getName(this.getSessionUserIds()[1])}
+
+							p1sl={this.state.p1shiplocation}
+							p2sl={this.state.p2shiplocation}
+							USL={(index)=>this.updateshiplocation(index)}
+
+							ready={()=>this.ready()}
+							startg={(isready)=>this.startgame(isready)}
 							/>
 					</div>
 				)
-				
 		}
 		//game started/////////////////////////////////////////////////////////////////
-		if (this.state.hasGameStarted && this.getSessionCreatorUserId() === this.getMyUserId()){
+		else if (this.state.hasGameStarted){
 			return(
 				<div>
 					<Board
+						hgs={this.state.hasGameStarted}
 						C={this.getSessionCreatorUserId()}
 						myid={this.getMyUserId()}
 						PON={UserApi.getName(this.getSessionUserIds()[0])}
 						PTN={UserApi.getName(this.getSessionUserIds()[1])}
+
 						p1sl={this.state.p1shiplocation}
 						p2sl={this.state.p2shiplocation}
-						hgs={this.state.hasGameStarted}
-						attack={this.state.attack}
+
 						AT={(index)=>this.attacking(index)}
 						/>
-					
-				</div>
-			)
-		}else if(this.state.hasGameStarted){
-			return(
-				<div>
-					<Board 
-						C={this.getSessionCreatorUserId()}
-						myid={this.getMyUserId()}
-						PON={UserApi.getName(this.getSessionUserIds()[0])}
-						PTN={UserApi.getName(this.getSessionUserIds()[1])}
-						p1sl={this.state.p1shiplocation}
-						p2sl={this.state.p2shiplocation}
-						hgs={this.state.hasGameStarted}
-						attack={this.state.attack}
-						AT={(index)=>this.attacking(index)}
-					/>
 				</div>
 			)
 		}
-		
 	}
 }
