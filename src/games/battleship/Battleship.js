@@ -11,18 +11,18 @@ export default class App extends GameComponent{
 			p1shiplocation: new Array(100).fill(false),
 			p2shiplocation: new Array(100).fill(false),
 			hasGameStarted: false,
-			playeroneready:'false',
-			playertwoready:'false',
+			playeroneready: false,
+			playertwoready: false,
 		};
-		//temporarily
 		this.getSessionDatabaseRef().update(this.state);
 	}
 
 	onSessionDataChanged(data) {
+		console.log(`onSessionDatachange!!`);
     this.setState({
       p1shiplocation: data.p1shiplocation,
 			p2shiplocation: data.p2shiplocation,
-      hasGameStarted: data.hasGameStarted,
+      hasGameStarted: data.playeroneready && data.playertwoready,
 			playeroneready: data.playeroneready,
 			playertwoready: data.playertwoready
     });
@@ -32,26 +32,28 @@ export default class App extends GameComponent{
 			if(this.getSessionCreatorUserId() === this.getMyUserId()){
 				let newshiplocation=this.state.p1shiplocation;
 				newshiplocation[index]=!newshiplocation[index];
-				this.setState({
+				this.getSessionDatabaseRef().update({
 					p1shiplocation:newshiplocation
 				});
 			}else{
 				let newshiplocation=this.state.p2shiplocation;
 				newshiplocation[index]=!newshiplocation[index];
-				this.setState({
+				this.getSessionDatabaseRef().update({
 					p2shiplocation:newshiplocation
 				});
 			}
-	}
+	};
 
 	ready=()=>{
 		if(this.getSessionCreatorUserId() === this.getMyUserId()){
 			this.getSessionDatabaseRef().update({
-				p1shiplocation:this.state.p1shiplocation
+				p1shiplocation:this.state.p1shiplocation,
+				playeroneready: true
 			});
 		}else{
 			this.getSessionDatabaseRef().update({
-				p2shiplocation:this.state.p2shiplocation
+				p2shiplocation:this.state.p2shiplocation,
+				playertwoready: true
 			});
 		};
 	};
@@ -97,6 +99,7 @@ export default class App extends GameComponent{
 			});
 		}
 		if(this.state.playeroneready === 'true' && this.state.playertwoready === 'true'){
+			console.log('BOTH PLAYERS READY!!')
 			this.getSessionDatabaseRef().update({
         hasGameStarted: true
 			});
@@ -122,7 +125,7 @@ export default class App extends GameComponent{
 							USL={(index)=>this.updateshiplocation(index)}
 
 							ready={()=>this.ready()}
-							startg={(isready)=>this.startgame(isready)}
+							startg={(isready)=> this.startgame(isready)}
 							/>
 					</div>
 				)
