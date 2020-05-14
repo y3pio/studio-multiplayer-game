@@ -47,12 +47,10 @@ export default class App extends GameComponent{
 	ready=()=>{
 		if(this.getSessionCreatorUserId() === this.getMyUserId()){
 			this.getSessionDatabaseRef().update({
-				p1shiplocation:this.state.p1shiplocation,
 				playeroneready: true
 			});
 		}else{
 			this.getSessionDatabaseRef().update({
-				p2shiplocation:this.state.p2shiplocation,
 				playertwoready: true
 			});
 		};
