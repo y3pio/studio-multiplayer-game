@@ -1,24 +1,30 @@
 import React, {Component} from 'react';
 import styled from '@emotion/styled';
 
-const Image = styled.img`
+const Ship = styled.img`
   height:50px;
   width:50px;
+  position:absolute;
+  top:0;
+  left:0;
 `;
 const Imagetwo = styled.img`
   height:50px;
   width:50px;
-  position:relative ;
-  top:-54px
+  position:absolute ;
+  top:0;
+  left:0;
 `;
 const Imagethree = styled.img`
   height:50px;
   width:50px;
-  position:relative ;
-  top:-108px
+  position:absolute ;
+  top:0;
+  left:0;
 `;
 
 const Holder= styled.button`
+  position:relative ;
   height:54px;
   width: 54px;
   border:2px solid black;
@@ -29,9 +35,7 @@ const Holder= styled.button`
 const Cover = styled.div`
   width:54px;
   height:54px;
-  position:relative ;
-  top:-164px;
-  left:-2px;
+  position:absolute ;
   border-radius:0;
 `;
 export default class Square extends Component{
@@ -79,7 +83,7 @@ export default class Square extends Component{
         <Holder
           onClick={()=>{this.action()}}
         >
-          <Image
+          <Ship
             style={{ visibility:this.state.ifvisible }}
             alt="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
@@ -103,12 +107,12 @@ export default class Square extends Component{
             this.action2()
           }}
         >
-          <Image
+          <Imagetwo
             style={{visibility:missed}}
             alt="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/1200px-Red_X.svg.png"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Red_X.svg/1200px-Red_X.svg.png"
             />
-          <Imagetwo
+          <Ship
             style={{ visibility:isVisible }}
             alt="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQU9Vb5tYWn6R6moUuhXJqIRJMOedsRdmNUkDn2XOi3y5QFZz9"
