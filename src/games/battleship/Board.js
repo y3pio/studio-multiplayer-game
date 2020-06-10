@@ -63,8 +63,8 @@ export default class Board extends Component{
     super(props);
     this.state = {
       numberofship:0,
-      plsl:props.plsl || [],
-      p2sl:props.p2sl|| [],
+      p1sl:props.p1sl || [],
+      p2sl:props.p2sl || [],
       hgs:props.hgs
     };
   }
