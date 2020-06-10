@@ -118,7 +118,7 @@ const gameData = {
 
   cookieClicker: {
     title: "Cookie Clicker",
-    authors: "Mahfuz,",
+    authors: "Mahfuz, Aldair, and David",
     description: "click the cookie fast as possible",
     minUsers: 2,
     maxUsers: 2,
